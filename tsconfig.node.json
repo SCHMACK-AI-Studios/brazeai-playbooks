@@ -1,0 +1,10 @@
+{
+  "extends": "./config/tsconfig/node.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "vite": ["./node_modules/vite"]
+    }
+  },
+  "include": ["vite.config.ts"]
+}

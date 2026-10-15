@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+/*
+ * Self-hosted through @fontsource, so the deck renders with no network at
+ * all. Only the weights the source deck actually uses are imported.
+ */
+@import "@fontsource/albert-sans/400.css";
+@import "@fontsource/albert-sans/500.css";
+@import "@fontsource/albert-sans/600.css";
+@import "@fontsource/albert-sans/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/700.css";
+
+/*
+ * Keep Tailwind's class scan on source. The docs and the QA scripts name
+ * classes in prose and selectors, and would otherwise generate real utilities.
+ */
+@source not "../../*.md";
+@source not "../../scripts";
+
+/*
+ * Colours are taken from the source deck's XML, not invented. Every slide
+ * surface, rule, and dimmed state below appears in the PPTX export.
+ */
+:root {
+  --red: #ff333b;
+  --ground: #181818; /* slide master background */
+  --ground-deep: #101010; /* "Business transformation" */
+  --ground-2: #141414; /* card fill, "CRM has evolved" */
+  --ground-3: #161616; /* theme card fill */
+  --letterbox: #0b0b0b;
+  --paper: #ffffff;
+  --paper-2: #f5f5f5;
+  --grey-1: #cfcfcf;
+  --grey-2: #9ea0a3;
+  --grey-3: #666666;
+  --grey-4: #595959;
+  --grey-5: #434343;
+  --grey-6: #323232;
+  --block-1: #efefef;
+  --block-2: #b7b7b7;
+  --block-3: #999999;
+
+  --font-display: "Albert Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Presenter chrome only; never used on a slide. */
+  --chrome: #1f1f1f;
+  --chrome-line: #2e2e2e;
+  --chrome-muted: #8f8f8f;
+  --focus: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"] {
+    cursor: pointer;
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--letterbox);
+  color: var(--paper);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* The source deck's headline weight. Albert Sans "bold" in Slides renders at 600-700. */
+/* Regular, as the source deck sets its statements; the point of each one is bold. */
+.headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+/* Hide the pointer on the projector after inactivity (see AudienceView). */
+[data-cursor="hidden"],
+[data-cursor="hidden"] * {
+  cursor: none !important;
+}
+
+/* Hand-drawn marks are revealed by a mask; no hit-testing on decoration. */
+.decor {
+  pointer-events: none;
+  user-select: none;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/*
+ * The starburst's own two-frame flicker lives in its animated WebP. Reduced
+ * motion swaps it for the first frame, via the <picture> in PointingHand.
+ */
+
+@keyframes forge-drift {
+  from {
+    transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(1.5%, 1%, 0);
+  }
+}
+.forge-drift {
+  animation: forge-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: caret-blink 0.9s steps(1) infinite;
+}
+
+/* The one place motion is switched off wholesale. Components also skip JS motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* The "continue" cue on the forward arrow, from abridge-sessions: a slow, small drift, never a bounce. */
+@keyframes next-arrow-drift {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(7px);
+  }
+}
+.next-arrow-idle {
+  animation: next-arrow-drift 2.6s ease-in-out infinite;
+}
