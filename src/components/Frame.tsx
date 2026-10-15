@@ -60,11 +60,11 @@ export function Frame({
               {label}
             </p>
           )}
-          {/* The fox goes home, to the list of playbooks. */}
+          {/* Return to the website's Resource forms. */}
           <a
             href={homeUrl()}
-            aria-label="All playbooks"
-            title="All playbooks"
+            aria-label="SCHMACK Resources"
+            title="SCHMACK Resources"
             className="absolute"
             style={{ left: 1801, top: 26, width: 53, height: 50 }}
           >

@@ -523,7 +523,7 @@ export function Contact({ lines, bring }: { lines: readonly Line[]; bring: reado
       </Reveal>
       <Reveal from="fade" delay={1.2} className="absolute" style={{ left: 1010, top: 860 }}>
         <a href={homeUrl()} className="no-underline" style={mono(32, { color: "var(--paper)" })}>
-          ← All playbooks
+          ← SCHMACK Resources
         </a>
       </Reveal>
     </Frame>

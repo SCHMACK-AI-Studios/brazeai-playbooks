@@ -69,7 +69,7 @@ export function ReaderView({ slides }: { slides: readonly SlideDef[] }) {
         style={{ background: "rgba(16,16,16,0.96)", border: "1px solid var(--chrome-line)", color: "var(--paper-2)" }}
       >
         <a href={homeUrl()} className="flex h-11 items-center px-2 hover:bg-white/10">
-          All playbooks
+          Resources
         </a>
         <button
           type="button"

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: schmack-playbooks
+    runtime: node
+    buildCommand: pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PUBLIC_ORIGIN
+        value: https://playbooks.schmack.com
+      - key: WEBSITE_ORIGIN
+        value: https://schmack.com
+      - key: PLAYBOOK_SESSION_SECRET
+        generateValue: true
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false

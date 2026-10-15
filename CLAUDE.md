@@ -14,8 +14,9 @@ Do not present an estimate as a fact. Durations, prices and uplift figures that 
 |---|---|
 | One playbook: slide order and copy | `src/playbooks/<name>.tsx` |
 | Slide layouts shared by every playbook | `src/playbooks/kit.tsx` |
-| The playbook list | `src/playbooks/index.ts` |
-| Home page | `src/Home.tsx` |
+| Production build catalogue | `config/playbooks.json` |
+| Local development catalogue | `src/playbooks/index.ts` |
+| Access gate and protected file serving | `server/` |
 | Deck primitives: master frame, display type, reveals, hand-drawn marks | `src/components/` |
 | Engine: tab-local store, URL, canvas and reader view | `src/engine/` |
 
@@ -47,9 +48,11 @@ Nothing reflows to fit, so check a slide after changing its copy:
 
 ## 6. Addresses and windows
 
-`/<playbook-id>/<slide>` opens the reader. One playbook per tab: the id is read once at start-up, and moving to another playbook is a normal page load. Reading position is independent per tab and preserved in the URL on refresh. Only left/right arrows have custom keybindings; visible controls remain available.
+`/<playbook-id>/<slide>` opens the reader only with a valid per-playbook grant. The website Resource form issues a one-time code through Supabase; the Node server redeems it and sets a signed cookie. Every production file must pass the server gate, including JS, images and fonts. Never publish `dist` directly or expose the editorial Vite server. Builds contain one playbook each. Return links lead to SCHMACK Resources, not a local library.
 
-Every public asset goes through `asset("/images/x.webp")`, so the app still works if it is hosted under a sub-path.
+One playbook per tab: the id is read once at start-up. Reading position is independent per tab and preserved in the URL on refresh. Only left/right arrows have custom keybindings; visible controls remain available.
+
+Every asset goes through `asset("/images/x.webp")`, so it stays under the playbook's protected base path. New assets must be included by `scripts/build.mjs` or the catalogue image allowlist.
 
 ## 7. Commands
 
@@ -57,4 +60,6 @@ Every public asset goes through `asset("/images/x.webp")`, so the app still work
 pnpm dev                      # http://localhost:5195
 pnpm typecheck | lint | build
 pnpm capture <playbook-id>    # needs pnpm dev running
+pnpm test                     # needs pnpm build; verifies the access gate
+pnpm start                    # protected production server, needs env
 ```

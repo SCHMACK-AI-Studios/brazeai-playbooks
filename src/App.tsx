@@ -4,11 +4,11 @@ import { ReaderView } from "@/engine/ReaderView";
 import { deck, startDeck } from "@/engine/deckStore";
 import { parseUrl, setDeck, writeUrl } from "@/engine/url";
 import { useDeck } from "@/engine/useDeck";
-import { Home } from "@/Home";
-import { playbooks } from "@/playbooks";
+import { playbooks } from "virtual:playbooks";
+import { homeUrl } from "@/engine/url";
 
 const initial = parseUrl(window.location);
-// One playbook per window. Moving to another is a normal page load, from the home page.
+// One playbook per tab. The production server checks access before serving this app.
 const playbook = playbooks.find((p) => p.id === initial.deck) ?? null;
 
 if (playbook) {
@@ -21,7 +21,39 @@ if (playbook) {
 }
 
 export function App() {
-  return <MotionConfig reducedMotion="user">{playbook ? <Deck /> : <Home />}</MotionConfig>;
+  return (
+    <MotionConfig reducedMotion="user">
+      {playbook ? (
+        <Deck />
+      ) : import.meta.env.DEV ? (
+        <DevelopmentLibrary />
+      ) : (
+        <a href={homeUrl()}>Open SCHMACK Resources</a>
+      )}
+    </MotionConfig>
+  );
+}
+
+/** Editorial entry point only; Vite removes this from production builds. */
+function DevelopmentLibrary() {
+  return (
+    <main className="mx-auto max-w-3xl p-8 text-white">
+      <h1 className="mb-3 text-3xl font-semibold">Local playbooks</h1>
+      <p className="mb-8 text-sm text-white/60">
+        Development preview. All playbooks open directly without a form or access cookie.
+      </p>
+      <nav aria-label="Development playbooks" className="grid gap-4">
+        {playbooks.map((item) => (
+          <a key={item.id} href={`/${item.id}/1`} className="border border-white/20 p-5 hover:border-white/60">
+            <span className="text-xl">{item.title}</span>
+            <span className="mt-2 block text-sm text-white/60">
+              {item.slides.length} slides{item.comingSoon ? " · Draft" : ""}
+            </span>
+          </a>
+        ))}
+      </nav>
+    </main>
+  );
 }
 
 function Deck() {
