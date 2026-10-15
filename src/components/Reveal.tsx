@@ -24,15 +24,12 @@ const HIDDEN: Record<Exclude<From, "travel">, TargetAndTransition> = {
 const SHOWN: TargetAndTransition = { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 };
 
 /**
- * Shows its children once the slide reaches reveal state `at`, and hides
- * them again when the presenter steps back past it. `at={0}` makes it a
- * plain entrance on arrival, with `delay` for sequencing within a slide.
+ * Animates children on arrival, with `delay` for sequencing within a slide.
  *
  * Hidden content keeps its layout box, so nothing else on the slide moves
  * when something appears: the source deck's compositions stay put.
  */
 export function Reveal({
-  at = 0,
   on,
   from = "travel",
   delay = 0,
@@ -41,8 +38,7 @@ export function Reveal({
   style,
   children,
 }: {
-  at?: number;
-  /** Overrides `at` when visibility depends on more than the step, such as a scene position. */
+  /** Controls visibility. */
   on?: boolean;
   from?: From;
   delay?: number;
@@ -51,8 +47,8 @@ export function Reveal({
   style?: CSSProperties;
   children?: ReactNode;
 }) {
-  const { step, instant, direction } = useSlide();
-  const shown = on ?? step >= at;
+  const { instant, direction } = useSlide();
+  const shown = on ?? true;
   const hidden = from === "travel" ? { opacity: 0, x: direction * TRAVEL } : HIDDEN[from];
   const transition = instant
     ? { duration: 0 }
@@ -75,30 +71,5 @@ export function Reveal({
     >
       {children}
     </motion.div>
-  );
-}
-
-/** Absolute placement in canvas pixels, for compositions lifted straight from the source deck. */
-export function At({
-  x,
-  y,
-  w,
-  h,
-  className,
-  style,
-  children,
-}: {
-  x: number;
-  y: number;
-  w?: number;
-  h?: number;
-  className?: string;
-  style?: CSSProperties;
-  children?: ReactNode;
-}) {
-  return (
-    <div className={`absolute ${className ?? ""}`} style={{ left: x, top: y, width: w, height: h, ...style }}>
-      {children}
-    </div>
   );
 }

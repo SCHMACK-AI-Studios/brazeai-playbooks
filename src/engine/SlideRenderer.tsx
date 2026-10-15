@@ -3,15 +3,6 @@ import { useRef } from "react";
 import { DirectionContext, SlideContext } from "@/engine/SlideContext";
 import type { DeckPosition, SlideDef } from "@/engine/types";
 
-/** First index of the run of adjacent slides sharing `slides[index]`'s scene. */
-export function sceneStart(slides: readonly SlideDef[], index: number): number {
-  const scene = slides[index]?.scene;
-  if (!scene) return index;
-  let i = index;
-  while (i > 0 && slides[i - 1]?.scene === scene) i--;
-  return i;
-}
-
 /**
  * Renders one deck position.
  *
@@ -21,9 +12,6 @@ export function sceneStart(slides: readonly SlideDef[], index: number): number {
  * same way. Only the content travels. Each slide's ground dissolves in place,
  * and since nearly every slide shares the #181818 master and its chrome, the
  * footer, fox, and rule never appear to move at all.
- *
- * Slides in the same scene share a key, so React keeps the one component
- * mounted and the scene animates its own composition from slide to slide.
  */
 export function SlideRenderer({
   slides,
@@ -37,20 +25,16 @@ export function SlideRenderer({
   const previous = useRef(position);
   const direction = useRef<1 | -1>(1);
   const prev = previous.current;
-  if (prev.slide !== position.slide || prev.step !== position.step) {
-    direction.current =
-      position.slide > prev.slide || (position.slide === prev.slide && position.step > prev.step) ? 1 : -1;
+  if (prev.slide !== position.slide) {
+    direction.current = position.slide > prev.slide ? 1 : -1;
     previous.current = position;
   }
 
   const def = slides[position.slide];
   if (!def) return null;
-  const key = def.scene ?? def.id;
   const Component = def.component;
   const value = {
     slide: position.slide,
-    sceneIndex: position.slide - sceneStart(slides, position.slide),
-    step: position.step,
     instant,
   };
 
@@ -58,7 +42,7 @@ export function SlideRenderer({
     <DirectionContext.Provider value={direction.current}>
       <AnimatePresence initial={false}>
         <motion.div
-          key={key}
+          key={def.id}
           data-slide={def.id}
           className="absolute inset-0"
           initial={instant ? false : { opacity: 0 }}

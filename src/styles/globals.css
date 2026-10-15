@@ -26,7 +26,6 @@
 :root {
   --red: #ff333b;
   --ground: #181818; /* slide master background */
-  --ground-deep: #101010; /* "Business transformation" */
   --ground-2: #141414; /* card fill, "CRM has evolved" */
   --ground-3: #161616; /* theme card fill */
   --letterbox: #0b0b0b;
@@ -99,38 +98,9 @@ body {
   letter-spacing: -0.005em;
 }
 
-/* Hide the pointer on the projector after inactivity (see AudienceView). */
-[data-cursor="hidden"],
-[data-cursor="hidden"] * {
-  cursor: none !important;
-}
-
-/* Hand-drawn marks are revealed by a mask; no hit-testing on decoration. */
-.decor {
-  pointer-events: none;
-  user-select: none;
-}
-
 img {
   -webkit-user-drag: none;
   user-select: none;
-}
-
-/*
- * The starburst's own two-frame flicker lives in its animated WebP. Reduced
- * motion swaps it for the first frame, via the <picture> in PointingHand.
- */
-
-@keyframes forge-drift {
-  from {
-    transform: scale(1.08) translate3d(-1.5%, -1%, 0);
-  }
-  to {
-    transform: scale(1.08) translate3d(1.5%, 1%, 0);
-  }
-}
-.forge-drift {
-  animation: forge-drift 18s ease-in-out infinite alternate;
 }
 
 @keyframes caret-blink {

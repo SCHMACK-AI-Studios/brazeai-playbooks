@@ -7,11 +7,10 @@ export const CANVAS_H = 1080;
  * The deck is composed on one fixed 1920×1080 canvas and scaled to fit, like
  * a slide, rather than reflowing like a web page. Every slide can then place
  * type and imagery in absolute canvas pixels taken straight from the source
- * deck, and a line break on a laptop is the same line break on the projector.
+ * deck, with consistent line breaks at every window size.
  *
  * Letterboxing fills the spare axis. The canvas is measured against its own
- * container, so the same component drives the full-screen audience view and
- * the small previews in the presenter view.
+ * container, leaving room for the reader's navigation controls.
  */
 export function SlideCanvas({ children, className = "" }: { children: ReactNode; className?: string }) {
   const outer = useRef<HTMLDivElement>(null);

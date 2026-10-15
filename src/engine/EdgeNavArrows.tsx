@@ -23,22 +23,18 @@ export function BrandedArrow({ size, rotation = 0 }: { size: number; rotation?: 
 /**
  * Edge navigation, adapted from abridge-sessions' EdgeNavArrows: forward is
  * the bigger, stronger arrow with a slow drift suggesting motion; back is
- * smaller and quieter. Both tuck away with the pointer after 2.5s of
- * stillness, so nothing but the slide is on the projector while presenting,
- * and come back the moment the mouse moves.
+ * smaller and quieter. Controls stay visible while reading.
  */
 export function EdgeNavArrows({
   onPrev,
   onNext,
   canGoPrev,
   canGoNext,
-  idle,
 }: {
   onPrev: () => void;
   onNext: () => void;
   canGoPrev: boolean;
   canGoNext: boolean;
-  idle: boolean;
 }) {
   return (
     <>
@@ -47,8 +43,8 @@ export function EdgeNavArrows({
         onClick={onPrev}
         disabled={!canGoPrev}
         aria-label="Previous"
-        className="group fixed top-1/2 left-2 z-40 flex h-28 w-24 -translate-y-1/2 items-center justify-start pl-3 transition-opacity duration-300 disabled:pointer-events-none disabled:!opacity-0 sm:left-4"
-        style={{ opacity: idle ? 0 : 0.45, pointerEvents: idle ? "none" : undefined }}
+        className="group fixed top-1/2 left-4 z-40 hidden h-28 w-24 -translate-y-1/2 items-center justify-start pl-3 transition-opacity duration-300 disabled:pointer-events-none disabled:!opacity-0 sm:flex"
+        style={{ opacity: 0.45 }}
       >
         <span className="inline-flex transition-transform duration-200 ease-out group-hover:-translate-x-1.5">
           <BrandedArrow rotation={180} size={64} />
@@ -60,8 +56,8 @@ export function EdgeNavArrows({
         onClick={onNext}
         disabled={!canGoNext}
         aria-label="Next"
-        className="group fixed top-1/2 right-2 z-40 flex h-36 w-36 -translate-y-1/2 items-center justify-end pr-3 transition-opacity duration-300 hover:!opacity-100 disabled:pointer-events-none disabled:!opacity-0 sm:right-4"
-        style={{ opacity: idle ? 0 : 0.8, pointerEvents: idle ? "none" : undefined }}
+        className="group fixed top-1/2 right-4 z-40 hidden h-36 w-36 -translate-y-1/2 items-center justify-end pr-3 transition-opacity duration-300 hover:!opacity-100 disabled:pointer-events-none disabled:!opacity-0 sm:flex"
+        style={{ opacity: 0.8 }}
       >
         <span className="next-arrow-idle inline-flex transition-transform duration-150 ease-out group-hover:translate-x-2 group-active:translate-x-3 group-active:scale-90">
           <BrandedArrow size={112} />

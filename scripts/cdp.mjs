@@ -1,7 +1,7 @@
 /**
  * A minimal Chrome DevTools Protocol driver, with no npm dependencies:
  * launches headless Chrome, opens pages, evaluates, screenshots. Shared by
- * scripts/capture.mjs and scripts/user-stories.mjs. Adapted from the harness
+ * scripts/capture.mjs and scripts/reader-check.mjs. Adapted from the harness
  * in abridge-sessions' user-stories.mjs.
  */
 import { spawn } from "node:child_process";
@@ -25,7 +25,7 @@ export async function launch() {
       // Needed when Chrome runs as root, as it does in a container.
       ...(process.env.CHROME_NO_SANDBOX ? ["--no-sandbox"] : []),
       "--hide-scrollbars",
-      // Several windows are driven at once (audience and presenter). Without
+      // Browser checks can drive several independent windows. Without
       // these, Chrome pauses animation frames in every tab but the front one,
       // and motion in the others freezes mid-transition.
       "--disable-renderer-backgrounding",
@@ -67,8 +67,7 @@ export async function launch() {
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
- * Each page gets its own window, as the projector and presenter windows do in
- * the room. Pages opened as tabs of one window steal visibility from each
+ * Each page gets its own window. Pages opened as tabs of one window steal visibility from each
  * other on every synthetic key press, and a hidden tab pauses its animation
  * frames, which freezes every transition mid-flight and fails good code.
  */

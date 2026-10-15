@@ -25,15 +25,9 @@ import { asset } from "@/lib/asset";
 export const LEFT = 84;
 export const WIDTH = 1752;
 
-/** Builds a slide definition. Playbook slides are complete on arrival, so `steps` is 0 unless given. */
-export function slide(
-  id: string,
-  title: string,
-  notes: string[],
-  component: SlideDef["component"],
-  steps = 0,
-): SlideDef {
-  return { id, title, notes, component, steps };
+/** Builds a slide definition. Every slide is complete on arrival. */
+export function slide(id: string, title: string, component: SlideDef["component"]): SlideDef {
+  return { id, title, component };
 }
 
 /** The slide's heading: one or two lines, set like the talk's "AI Maturity = reusable capability". */
