@@ -3,5 +3,5 @@ import { agenticStandards } from "@/playbooks/agentic-standards";
 import { conversationalAgents } from "@/playbooks/conversational-agents";
 import { decisioningStudioGo } from "@/playbooks/decisioning-studio-go";
 
-/** Every playbook, in the order the home page lists them. Add a new one here. */
+/** Local editorial development only. Production uses one isolated entry per playbook. */
 export const playbooks: Playbook[] = [decisioningStudioGo, agenticStandards, conversationalAgents];

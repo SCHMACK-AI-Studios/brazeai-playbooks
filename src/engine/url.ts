@@ -1,18 +1,15 @@
 /**
  * URL convention, short enough to type:
  *
- *   /                                 the home page, listing every playbook
+ *   /                                 redirects to SCHMACK Resources
  *   /agentic-standards                that playbook, slide 1
  *   /agentic-standards/12             slide 12
  *
  * Slide numbers are 1-based.
  */
 
-/** Vite's `base`: "/" unless the app is hosted under a sub-path. */
-const BASE = import.meta.env.BASE_URL;
-
 export interface ParsedUrl {
-  /** The playbook the URL names, or null for the home page. */
+  /** The playbook the URL names, or null at the root. */
   deck: string | null;
   /** 0-based slide index, or null when the URL names none. */
   slide: number | null;
@@ -26,8 +23,7 @@ export function setDeck(id: string): void {
 
 export function parseUrl(location: Pick<Location, "pathname" | "search">): ParsedUrl {
   const params = new URLSearchParams(location.search);
-  const path = location.pathname.startsWith(BASE) ? location.pathname.slice(BASE.length) : location.pathname;
-  const segments = path.split("/").filter(Boolean);
+  const segments = location.pathname.split("/").filter(Boolean);
   const deck = segments.shift() ?? null;
   const fromPath = segments[0] ? Number.parseInt(segments[0], 10) : Number.NaN;
   const fromQuery = params.has("slide") ? Number.parseInt(params.get("slide") ?? "", 10) : Number.NaN;
@@ -36,15 +32,12 @@ export function parseUrl(location: Pick<Location, "pathname" | "search">): Parse
 }
 
 export function homeUrl(): string {
-  return BASE;
-}
-
-export function deckUrl(id: string): string {
-  return `${BASE}${id}/1`;
+  if (import.meta.env.DEV) return "/";
+  return import.meta.env.VITE_RESOURCES_URL || "https://schmack.com/?folder=resources";
 }
 
 export function buildUrl(slide: number): string {
-  return `${BASE}${currentDeck}/${slide + 1}`;
+  return `/${currentDeck}/${slide + 1}`;
 }
 
 /**

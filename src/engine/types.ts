@@ -15,18 +15,18 @@ export interface DeckPosition {
   slide: number;
 }
 
-/** One playbook: a deck with its own address, listed on the home page. */
+/** One playbook: a deck with its own protected address. */
 export interface Playbook {
   /** The address segment: /agentic-standards. */
   id: string;
-  /** Two digits, as the home page numbers them. */
+  /** Two digits, as printed on the cover. */
   number: string;
-  /** Listed on the home page, greyed out and not clickable. */
+  /** Editorial status only. Website resource entries control publication. */
   comingSoon?: boolean;
   title: string;
   /** The Braze product the playbook covers, with its release status. */
   product: string;
-  /** One line for the home page. */
+  /** A one-line editorial summary. */
   summary: string;
   slides: SlideDef[];
 }

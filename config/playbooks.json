@@ -1,0 +1,13 @@
+[
+  { "id": "decisioning-studio-go", "exportName": "decisioningStudioGo", "images": ["bg-cat.webp"] },
+  {
+    "id": "agentic-standards",
+    "exportName": "agenticStandards",
+    "images": ["bg-cat-profile.webp", "bg-cat.webp", "ai-infrastructure.webp"]
+  },
+  {
+    "id": "conversational-agents",
+    "exportName": "conversationalAgents",
+    "images": ["bg-cat-looking-up.webp", "bg-cat.webp", "phone-hand.webp"]
+  }
+]

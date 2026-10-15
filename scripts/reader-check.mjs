@@ -7,8 +7,19 @@ try {
   const first = await newPage();
   const second = await newPage();
   const position = (page) => page.eval("return window.__deck.getSnapshot().slide");
+  await first.goto(BASE);
+  assert.equal(
+    await first.eval("return document.querySelectorAll('nav[aria-label=\"Development playbooks\"] a').length"),
+    3,
+    "The dev homepage must offer all playbooks without going through Resources",
+  );
   await first.goto(`${BASE}/decisioning-studio-go/4?presenter`);
   assert.equal(await position(first), 3);
+  assert.equal(
+    await first.eval("return document.querySelector('nav a').getAttribute('href')"),
+    "/",
+    "Dev reader return links must stay on the local selector",
+  );
   assert.equal(await first.eval("return location.search"), "");
   assert.equal(await first.eval("return !!document.querySelector('nav[aria-label=\"Playbook navigation\"]')"), true);
 
