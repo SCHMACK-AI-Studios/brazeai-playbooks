@@ -46,8 +46,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * land a beat apart, like a sentence being read.
  *
  * Red phrases then get a pass of the marker: the red is laid down across
- * them in the direction of travel, just after the line lands, which is where
- * the presenter's emphasis falls. It is the same gesture as the deck's
+ * them in the direction of travel, just after the line lands. It is the same gesture as the deck's
  * hand-drawn red underlines and circles.
  *
  * Lines are given explicitly and never wrap, so every break is the one in
@@ -55,7 +54,6 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  */
 export function Kinetic({
   lines,
-  at = 0,
   on,
   delay = 0,
   stagger = 0.08,
@@ -65,8 +63,7 @@ export function Kinetic({
   lineStyle,
 }: {
   lines: readonly Line[];
-  at?: number;
-  /** Overrides `at`, for visibility that depends on a scene position. */
+  /** Controls visibility within a scene. */
   on?: boolean;
   delay?: number;
   stagger?: number;
@@ -75,8 +72,8 @@ export function Kinetic({
   style?: CSSProperties;
   lineStyle?: CSSProperties;
 }) {
-  const { step, instant, direction } = useSlide();
-  const shown = on ?? step >= at;
+  const { instant, direction } = useSlide();
+  const shown = on ?? true;
   const hidden = { x: direction * LINE_TRAVEL, opacity: 0 };
   // The marker's un-inked half has to match the surrounding type exactly.
   const base = (style?.color as string | undefined) ?? "#ffffff";

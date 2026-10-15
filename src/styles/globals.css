@@ -99,12 +99,6 @@ body {
   letter-spacing: -0.005em;
 }
 
-/* Hide the pointer on the projector after inactivity (see AudienceView). */
-[data-cursor="hidden"],
-[data-cursor="hidden"] * {
-  cursor: none !important;
-}
-
 /* Hand-drawn marks are revealed by a mask; no hit-testing on decoration. */
 .decor {
   pointer-events: none;

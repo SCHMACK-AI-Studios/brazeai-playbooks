@@ -1,8 +1,7 @@
 import { MotionConfig } from "motion/react";
-import { useEffect, useState } from "react";
-import { AudienceView } from "@/engine/AudienceView";
+import { useEffect } from "react";
+import { ReaderView } from "@/engine/ReaderView";
 import { deck, startDeck } from "@/engine/deckStore";
-import { PresenterView } from "@/engine/PresenterView";
 import { parseUrl, setDeck, writeUrl } from "@/engine/url";
 import { useDeck } from "@/engine/useDeck";
 import { Home } from "@/Home";
@@ -14,11 +13,7 @@ const playbook = playbooks.find((p) => p.id === initial.deck) ?? null;
 
 if (playbook) {
   setDeck(playbook.id);
-  startDeck(
-    playbook.slides.map((s) => s.steps),
-    initial.slide,
-    playbook.id,
-  );
+  startDeck(playbook.slides.length, initial.slide);
   document.title = `${playbook.title} · SCHMACK playbook`;
   // Lets scripts/capture.mjs drive the deck. It exposes navigation only,
   // which the keyboard already gives anyone at the machine.
@@ -30,13 +25,12 @@ export function App() {
 }
 
 function Deck() {
-  const [presenter] = useState(initial.presenter);
   const { slide } = useDeck();
   const slides = playbook?.slides ?? [];
 
   useEffect(() => {
-    writeUrl(slide, presenter);
-  }, [slide, presenter]);
+    writeUrl(slide);
+  }, [slide]);
 
-  return presenter ? <PresenterView slides={slides} /> : <AudienceView slides={slides} />;
+  return <ReaderView slides={slides} />;
 }

@@ -4,20 +4,20 @@ BrazeAI™ playbooks as browser slide decks. Vite 6, React 19, TypeScript, Tailw
 
 ## 1. Copy is British English, in the SCHMACK tone
 
-Sentence case, numerals for quantities, no exclamation marks, plain words. No consultancy phrasing. Slides are for clients; speaker notes are for the presenter, and a note starting `[NOTE]` is for SCHMACK only.
+Sentence case, numerals for quantities, no exclamation marks, plain words. No consultancy phrasing. Slides are self-guided client reading; internal editorial context belongs in `EDITORIAL.md`, outside the app bundle.
 
-Do not present an estimate as a fact. Durations, prices and uplift figures that are not confirmed say so on the slide or in the notes.
+Do not present an estimate as a fact. Durations, prices and uplift figures that are not confirmed say so on the slide.
 
 ## 2. Where things live
 
 | What | Where |
 |---|---|
-| One playbook: slide order, copy, speaker notes | `src/playbooks/<name>.tsx` |
+| One playbook: slide order and copy | `src/playbooks/<name>.tsx` |
 | Slide layouts shared by every playbook | `src/playbooks/kit.tsx` |
 | The playbook list | `src/playbooks/index.ts` |
 | Home page | `src/Home.tsx` |
 | Deck primitives: master frame, display type, reveals, hand-drawn marks | `src/components/` |
-| Engine: store, window sync, URL, canvas, audience and presenter views | `src/engine/` |
+| Engine: tab-local store, URL, canvas and reader view | `src/engine/` |
 
 A playbook is data plus layouts. Change copy in the playbook file. Change how a kind of slide looks in `kit.tsx`, so all three decks stay one family.
 
@@ -42,12 +42,12 @@ Nothing reflows to fit, so check a slide after changing its copy:
 ## 5. Motion rules
 
 - Navigation is horizontal. `Frame` moves a slide's content in from the side the deck is moving from; the ground and chrome stay put. `Kinetic` and `Reveal` follow the same direction.
-- Everything honours `instant` (presenter previews, reduced motion): render the state, animate nothing.
-- Playbook slides are complete on arrival (`steps: 0`). Give a slide steps only when a reveal earns the extra click.
+- Everything honours `instant` (reduced motion): render the state, animate nothing.
+- Playbook slides are complete on arrival. There are no extra-click reveals.
 
 ## 6. Addresses and windows
 
-`/<playbook-id>/<slide>`, with `?presenter` for the presenter view. One playbook per window: the id is read once at start-up, and moving to another playbook is a normal page load. `deckStore.ts` keeps the audience and presenter windows in step, with a separate channel per playbook.
+`/<playbook-id>/<slide>` opens the reader. One playbook per tab: the id is read once at start-up, and moving to another playbook is a normal page load. Reading position is independent per tab and preserved in the URL on refresh. Only left/right arrows have custom keybindings; visible controls remain available.
 
 Every public asset goes through `asset("/images/x.webp")`, so the app still works if it is hosted under a sub-path.
 
@@ -58,5 +58,3 @@ pnpm dev                      # http://localhost:5195
 pnpm typecheck | lint | build
 pnpm capture <playbook-id>    # needs pnpm dev running
 ```
-
-`pnpm lint` reports 4 `useExhaustiveDependencies` findings in the presenter view and prompter. They came with the engine from SCHFORGE and are unchanged.

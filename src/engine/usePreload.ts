@@ -6,7 +6,7 @@ const requested = new Set<string>();
 
 /**
  * Warms the browser cache for the slides either side of the current one, so
- * the next image is decoded before the presenter presses forward. Everything
+ * the next image is decoded before the reader moves forward. Everything
  * else loads when its slide is reached: the deck's largest images (the world
  * map, the collages) never sit on the first frame.
  */

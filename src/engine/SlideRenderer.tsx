@@ -37,9 +37,8 @@ export function SlideRenderer({
   const previous = useRef(position);
   const direction = useRef<1 | -1>(1);
   const prev = previous.current;
-  if (prev.slide !== position.slide || prev.step !== position.step) {
-    direction.current =
-      position.slide > prev.slide || (position.slide === prev.slide && position.step > prev.step) ? 1 : -1;
+  if (prev.slide !== position.slide) {
+    direction.current = position.slide > prev.slide ? 1 : -1;
     previous.current = position;
   }
 
@@ -50,7 +49,6 @@ export function SlideRenderer({
   const value = {
     slide: position.slide,
     sceneIndex: position.slide - sceneStart(slides, position.slide),
-    step: position.step,
     instant,
   };
 

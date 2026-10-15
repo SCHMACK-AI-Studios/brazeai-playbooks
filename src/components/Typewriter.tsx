@@ -21,11 +21,10 @@ const MAX_DURATION_MS = 1500;
  *
  * Differences from the original: it takes coloured segments, because the
  * source deck colours words mid-line ("CRM has evolved. Again."), and it
- * starts when the slide reaches reveal state `at` rather than on scroll.
+ * starts on arrival rather than on scroll.
  */
 export function Typewriter({
   segments,
-  at = 0,
   on,
   delay = 0,
   className,
@@ -34,8 +33,7 @@ export function Typewriter({
   keepCaret = false,
 }: {
   segments: readonly Segment[];
-  at?: number;
-  /** Overrides `at`, for visibility that depends on a scene position. */
+  /** Controls visibility within a scene. */
   on?: boolean;
   delay?: number;
   className?: string;
@@ -43,10 +41,10 @@ export function Typewriter({
   caretColor?: string;
   keepCaret?: boolean;
 }) {
-  const { step, instant } = useSlide();
+  const { instant } = useSlide();
   const full = segments.map((s) => s.text).join("");
   const total = Array.from(full).length;
-  const active = on ?? step >= at;
+  const active = on ?? true;
   const [count, setCount] = useState(instant && active ? total : 0);
 
   useEffect(() => {

@@ -30,7 +30,7 @@ if (!total) {
 }
 
 for (let n = 1; n <= total; n++) {
-  await page.eval(`const s = window.__deck.stepsFor(${n - 1}); window.__deck.goTo(${n - 1}, s); return 1;`);
+  await page.eval(`window.__deck.goTo(${n - 1}); return 1;`);
   await sleep(3200);
   writeFileSync(`${out}/s-${String(n).padStart(2, "0")}.png`, await page.screenshot());
   process.stdout.write(`${n} `);

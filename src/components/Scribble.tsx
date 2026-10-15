@@ -48,7 +48,6 @@ export function Scribble({
   flip = false,
   routes,
   brush,
-  at = 0,
   on,
   delay = 0,
   duration = 0.7,
@@ -63,8 +62,7 @@ export function Scribble({
   flip?: boolean;
   routes: readonly (readonly Pt[])[];
   brush: number;
-  at?: number;
-  /** Overrides `at`, for visibility that depends on a scene position. */
+  /** Controls visibility within a scene. */
   on?: boolean;
   delay?: number;
   duration?: number;
@@ -72,8 +70,8 @@ export function Scribble({
   crop?: { l?: number; t?: number; r?: number; b?: number };
 }) {
   const id = useId().replace(/:/g, "");
-  const { step, instant } = useSlide();
-  const shown = on ?? step >= at;
+  const { instant } = useSlide();
+  const shown = on ?? true;
   const per = duration / routes.length;
   const fullW = w / (1 - (crop?.l ?? 0) - (crop?.r ?? 0));
   const fullH = h / (1 - (crop?.t ?? 0) - (crop?.b ?? 0));
