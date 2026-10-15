@@ -38,7 +38,7 @@ export function Reveal({
   style,
   children,
 }: {
-  /** Controls visibility within a scene. */
+  /** Controls visibility. */
   on?: boolean;
   from?: From;
   delay?: number;
@@ -71,30 +71,5 @@ export function Reveal({
     >
       {children}
     </motion.div>
-  );
-}
-
-/** Absolute placement in canvas pixels, for compositions lifted straight from the source deck. */
-export function At({
-  x,
-  y,
-  w,
-  h,
-  className,
-  style,
-  children,
-}: {
-  x: number;
-  y: number;
-  w?: number;
-  h?: number;
-  className?: string;
-  style?: CSSProperties;
-  children?: ReactNode;
-}) {
-  return (
-    <div className={`absolute ${className ?? ""}`} style={{ left: x, top: y, width: w, height: h, ...style }}>
-      {children}
-    </div>
   );
 }

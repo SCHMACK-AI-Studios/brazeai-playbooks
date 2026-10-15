@@ -33,7 +33,7 @@ export function Typewriter({
   keepCaret = false,
 }: {
   segments: readonly Segment[];
-  /** Controls visibility within a scene. */
+  /** Controls visibility. */
   on?: boolean;
   delay?: number;
   className?: string;

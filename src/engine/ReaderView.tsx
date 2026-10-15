@@ -8,7 +8,6 @@ import type { SlideDef } from "@/engine/types";
 import { homeUrl } from "@/engine/url";
 import { useDeck } from "@/engine/useDeck";
 import { useDeckKeys } from "@/engine/useDeckKeys";
-import { usePreload } from "@/engine/usePreload";
 import { useFullscreen } from "@/lib/useFullscreen";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
@@ -21,7 +20,6 @@ export function ReaderView({ slides }: { slides: readonly SlideDef[] }) {
   const reducedMotion = useReducedMotion();
   const { isFullscreen, toggle } = useFullscreen(() => document.documentElement);
   const pointer = useRef<{ id: number; x: number; y: number } | null>(null);
-  usePreload(slides, position.slide);
   useDeckKeys();
 
   const def = slides[position.slide];

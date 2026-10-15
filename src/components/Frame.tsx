@@ -8,18 +8,15 @@ import { asset } from "@/lib/asset";
 /** How far a slide's content travels on the way in or out, in canvas pixels. */
 const TRAVEL = 180;
 
-type Ground = "master" | "deep" | "card" | "cat" | "catProfile" | "catLookingUp" | "smoke";
+type Ground = "master" | "cat" | "catProfile" | "catLookingUp";
 
 const GROUNDS: Record<Ground, CSSProperties> = {
   master: { background: "var(--ground)" },
-  deep: { background: "var(--ground-deep)" },
-  card: { background: "var(--ground-2)" },
   cat: { background: `var(--ground) url(${asset("/images/bg-cat.webp")}) center / cover no-repeat` },
   catProfile: { background: `var(--ground) url(${asset("/images/bg-cat-profile.webp")}) center / cover no-repeat` },
   catLookingUp: {
     background: `var(--ground) url(${asset("/images/bg-cat-looking-up.webp")}) center / cover no-repeat`,
   },
-  smoke: { background: `var(--ground) url(${asset("/images/bg-smoke.webp")}) center / cover no-repeat` },
 };
 
 /**
@@ -67,7 +64,7 @@ export function Frame({
           <a
             href={homeUrl()}
             aria-label="All playbooks"
-            title="All playbooks (H)"
+            title="All playbooks"
             className="absolute"
             style={{ left: 1801, top: 26, width: 53, height: 50 }}
           >

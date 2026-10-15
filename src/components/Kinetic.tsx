@@ -63,7 +63,7 @@ export function Kinetic({
   lineStyle,
 }: {
   lines: readonly Line[];
-  /** Controls visibility within a scene. */
+  /** Controls visibility. */
   on?: boolean;
   delay?: number;
   stagger?: number;

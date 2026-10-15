@@ -8,14 +8,6 @@ export interface SlideDef {
   id: string;
   /** Describes the slide for assistive technology. */
   title: string;
-  /**
-   * Adjacent slides that share a scene keep one component mounted, so the
-   * scene can animate from one slide's composition into the next rather than
-   * cutting. The component reads its position in the scene from useSlide().
-   */
-  scene?: string;
-  /** Images this slide shows, preloaded when it is the next or previous slide. Paths are relative to public/. */
-  assets?: string[];
   component: ComponentType;
 }
 
